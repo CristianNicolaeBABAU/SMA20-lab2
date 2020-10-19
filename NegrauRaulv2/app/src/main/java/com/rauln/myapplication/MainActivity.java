@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,8 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog.Builder alertDialogBuilder;
     private EditText eName;
     private TextView tName;
-    private Button bName, bRandome;
+    private Button bName, bRandome, bSearch, bShare;
     private Spinner spinner;
+    private Intent intent;
+    private Intent chooser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         bName = (Button) findViewById(R.id.bName);
         bRandome = (Button) findViewById(R.id.bRandom);
         spinner = (Spinner) findViewById(R.id.color_spinner);
+        bShare = (Button) findViewById(R.id.bShare);
+        bSearch = (Button) findViewById(R.id.bSearch);
 
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.my_colors, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,7 +83,23 @@ public class MainActivity extends AppCompatActivity {
                 myDialog();
             }
         });
+
+        bSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myExplicitIntend();
+            }
+        });
+
+        bShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myImplicitIntend();
+            }
+        });
     }
+
+
 
     public void myDialog(){
         alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -98,5 +119,22 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public void myImplicitIntend(){
+        // on bShare click button
+        intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, eName.getText().toString());
+        intent.setType("text/plain");
+        chooser = Intent.createChooser(intent, "Choose an aplication!");
+
+        if(intent.resolveActivity(getPackageManager()) != null){
+            startActivity(chooser);
+        }
+    }
+
+    public void myExplicitIntend(){
+        // on bSearch click button
     }
 }

@@ -46,7 +46,24 @@
         android:text="Hello there!"
         android:textSize="20sp"
         />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tName"
+        >
+        <Button
+            android:id="@+id/bShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share"
+            android:layout_weight="0.5"/>
+        <Button
+            android:id="@+id/bSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:layout_weight="0.50"/>
+    </LinearLayout>
     <Spinner
         android:id="@+id/color_spinner"
         android:layout_width="match_parent"
